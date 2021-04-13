@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import { Catalogue } from 'src/app/models/data.model';
+import { CalatogueService } from 'src/app/services/calatogue.service';
+import {ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-catalogue-list',
@@ -7,34 +13,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CatalogueListComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'category', 'price', 'quantity'];
-  dataSource = _DATA;
-  constructor() { }
+  displayedColumns: string[] = ['name', 'category', 'price', 'quantity', 'action'];
+  dataSource = new MatTableDataSource<Catalogue>();
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
+
+  constructor(private catService: CalatogueService, private router: Router) { }
 
   ngOnInit(): void {
+    this.dataSource.data = this.catService.getData();
   }
 
-  
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  openDialog(keyword: string, element: any) {
+    if (keyword === 'ADD') {
+      this.router.navigateByUrl('/detail/0');
+    } else if (keyword === 'EDIT') {
+      this.router.navigateByUrl(`/detail/${element.id}`);
+      // this.catService.postData(element, keyword);
+      // this.dataSource.data = this.catService.getData();
+    } else if (keyword === 'DELETE') {
+      this.catService.postData(element, keyword);
+      this.dataSource.data = this.catService.getData();
+    }
+  }
+
 
 }
 
-export interface Catalogue {
-  name: string;
-  category: string;
-  quantity: number;
-  price: string;
-}
 
-const _DATA: Catalogue[] = [
-  {name: 'Hydrogen', category: 'apparels', price: '12', quantity: 10},
-  {name: 'Helium', category: 'apparels', price: '12', quantity: 10},
-  {name: 'Lithium', category: 'apparels', price: '11', quantity: 10},
-  {name: 'Beryllium', category: 'apparels', price: '333', quantity: 10},
-  {name: 'Boron', category: 'apparels', price: '32', quantity: 10},
-  {name: 'Carbon', category: 'apparels', price: '21', quantity: 10},
-  {name: 'Nitrogen', category: 'apparels', price: '21', quantity: 10},
-  {name: 'Oxygen', category: 'apparels', price: '34', quantity: 10},
-  {name: 'Fluorine', category: 'apparels', price: '43', quantity: 10},
-  { name: 'Neon', category: 'apparels', price: '89', quantity: 10},
-];
 
