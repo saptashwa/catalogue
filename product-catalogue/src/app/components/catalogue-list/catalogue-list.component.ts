@@ -35,8 +35,6 @@ export class CatalogueListComponent implements OnInit {
       this.router.navigateByUrl('/detail/0');
     } else if (keyword === 'EDIT') {
       this.router.navigateByUrl(`/detail/${element.id}`);
-      // this.catService.postData(element, keyword);
-      // this.dataSource.data = this.catService.getData();
     } else if (keyword === 'DELETE') {
       this.catService.postData(element, keyword);
       this.dataSource.data = this.catService.getData();

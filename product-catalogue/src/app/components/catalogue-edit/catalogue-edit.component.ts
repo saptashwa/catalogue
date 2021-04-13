@@ -32,12 +32,6 @@ export class CatalogueEditComponent implements OnInit {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    console.log(changes);
-  }
-
   public submitProduct() {
     console.log(this.formData);
     this.catService.postData(this.formData, this.actionButton.toLocaleUpperCase());
