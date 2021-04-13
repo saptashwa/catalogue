@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>{{title.toLocaleUpperCase()}}</h1>
+    <span class="menu-spacer"></span>
+    <div>
+      <a mat-button [routerLink]="'/list'"> Catalogue List </a>
+      <a mat-button [routerLink]="'/detail/0'"> Create Catalogue </a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-card style="margin: 10px">
+  <router-outlet></router-outlet>
+</mat-card>
